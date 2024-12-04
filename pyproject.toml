@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "youtbe-downloader"
+version = "0.1.0"
+description = ""
+authors = ["Christian Tarifeno <christiantarifer@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+yt-dlp = "^2024.12.3"
+
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.1.1"
+autopep8 = "^2.3.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
