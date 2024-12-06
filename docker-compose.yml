@@ -1,0 +1,31 @@
+# version: "3.7" # Uncomment for older compose versions
+services:
+  # app:
+  #   container_name: "${APP_NAME}"
+  #   build: 
+  #     context: .
+  #     target: development
+  #   ports:
+  #     - "${APP_PORT}:${APP_PORT}"
+  #   environment:
+  #     DB_ENGINE: "${DB_ENGINE}"
+  #     DB_NAME: "${DB_NAME}"
+  #     DB_USERNAME: "${DB_USERNAME}"
+  #     DB_PASSWORD: "${DB_PASSWORD}"
+  #     DB_HOST: "${APP_HOST}"
+  #   volumes:
+  #     - ./app:/app
+  #     - db
+  db:
+    container_name: youtube_bd
+    image: mysql:8.0
+    tty: true
+    restart: always
+    ports: 
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: "${DB_DAME}"
+      MYSQL_PORT: "${DB_PORT}"
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+    volumes:
+      - ./database/mysql/db:/var/lib/mysql

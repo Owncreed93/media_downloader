@@ -16,6 +16,9 @@ ffmpeg libavdevice60 libdc1394-25 libjack-jackd2-0 libopenal-data libopenal1 lib
 ## 📂 Project's structure
 ```
 /youtube_downloader
+│   │   ├── api                 # API Code
+│   │   │   ├── routes          # API Routes
+│   │   │   |    ├── main.py         # Main router
 │   │   ├── downloads           # Provitional storage
 │   │   │   ├── audios          # For audio
 │   │   │   ├── videos          # For videos
@@ -24,11 +27,9 @@ ffmpeg libavdevice60 libdc1394-25 libjack-jackd2-0 libopenal-data libopenal1 lib
 │   │   ├── youtube_downloader  # Funcionalidad de descarga de la plataforma
 │   │   └── main.py             # Punto de entrada del sistema
 │   │   └── uvicorn_conf.py     # Configuracion de uvicorn y arranque del sistema
-│   │   └── uvicorn_conf.py     # Configuracion de uvicorn
 │   ├── .env.example          # Variables de entorno de ejemplo
 │   ├── package.json          # Dependencias y configuraciones de node
 │   ├── package-lock.json     # Versiones instaladas en la ultima version probada
-│   ├── coverage              # Testing para funcionalidad
 ├── .dockerignore         # Archivos a ignorar por los contenedores
 ├── docker-compose.yml    # Configuración de Docker Compose
 ├── README.md             # Presentación del proyecto
