@@ -7,4 +7,4 @@ router = APIRouter()
 
 @router.post("/", response_model=DownloadResponse)
 def add_download(download: DownloadCreate):
-    return create_download(download.url, download.successful)
+    return create_download(download.url, download.successful, download.media_type, download.created_at)
