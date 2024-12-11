@@ -1,4 +1,7 @@
 # version: "3.7" # Uncomment for older compose versions
+volumes:
+  db_data:
+
 services:
   # app:
   #   container_name: "${APP_NAME}"
@@ -17,15 +20,15 @@ services:
   #     - ./app:/app
   #     - db
   db:
-    container_name: youtube_bd
     image: mysql:8.0
+    container_name: youtube_bd
     tty: true
     restart: always
     ports: 
       - "3306:3306"
     environment:
-      MYSQL_DATABASE: "${DB_DAME}"
-      MYSQL_PORT: "${DB_PORT}"
-      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_DATABASE: "youtube_bd"
+      MYSQL_PORT: "3306"
+      MYSQL_ROOT_PASSWORD: "123456"
     volumes:
-      - ./database/mysql/db:/var/lib/mysql
+      - db_data:/var/lib/mysql

@@ -13,6 +13,9 @@ uvicorn = "^0.32.1"
 pydantic = "^2.10.3"
 pytest = "^8.3.4"
 poetry-plugin-export = "^1.8.0"
+sqlalchemy = "^2.0.36"
+mysql-connector-python = "^9.1.0"
+pytz = "^2024.2"
 
 
 [tool.poetry.group.dev.dependencies]

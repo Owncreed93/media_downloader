@@ -144,8 +144,12 @@ class MediaMetadataExtractor:
         return {
             'title': info.get('title', 'Desconocido'),
             'artist': info.get('artist', 'Desconocido'),
+            'album': info.get('album', 'Desconocido'),
             'year': info.get('release_date', 'Desconocido').split('-')[0] if info.get('release_date') else 'Desconocido',
+            'release_date': info.get('release_date', 'Desconocido'),
             'duration': info.get('duration', 0),  # Duración en segundos
+            'label': info.get('uploader', 'Desconocido'),  # Nombre del canal como etiqueta aproximada
             'resolution': info.get('format_note', 'Desconocido') if 'video' in info.get('format', '').lower() else None,
+            'copyright': info.get('license', 'Desconocido'),  # Derechos de autor, si está disponible
             'origin_url': info.get('webpage_url', 'Desconocido'),
         }
