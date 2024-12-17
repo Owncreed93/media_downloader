@@ -24,10 +24,8 @@ def create_download(download_data: DownloadCreate, db: Session) -> DownloadRespo
     if downloader.download():
         download_data.result = True
         new_download = save_download(download_data, db)
-        #new_download = DownloadResponse(id=1, url=url, result=result, media_type=media_type, createdAt=date)
         response = DownloadResponse.from_sqlalchemy(new_download, download_data.media_type)
-        print(downloader.metadata)
-        # return DownloadResponse(id=1, url=url, result=result)
+        print(f'\n*****************\n {downloader.metadata} \n*****************\n')
         return response
     else:
         raise ValueError("Failed to download media.")

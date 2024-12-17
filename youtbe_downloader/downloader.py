@@ -128,6 +128,7 @@ class MediaDownloader:
             # Descarga del medio
             with YoutubeDL(options) as ydl:
                 info_dict = ydl.extract_info(self.url, download=True)
+                print(info_dict)
                 self.metadata = MediaMetadataExtractor.extract_metadata(info_dict)  # Extraer metadatos
             return True  # Indica éxito
         except Exception as e:
@@ -142,14 +143,26 @@ class MediaMetadataExtractor:
         Extract media's relevant metadata provied by the yt-dlp.
         """
         return {
-            'title': info.get('title', 'Desconocido'),
-            'artist': info.get('artist', 'Desconocido'),
-            'album': info.get('album', 'Desconocido'),
-            'year': info.get('release_date', 'Desconocido').split('-')[0] if info.get('release_date') else 'Desconocido',
-            'release_date': info.get('release_date', 'Desconocido'),
-            'duration': info.get('duration', 0),  # Duración en segundos
-            'label': info.get('uploader', 'Desconocido'),  # Nombre del canal como etiqueta aproximada
-            'resolution': info.get('format_note', 'Desconocido') if 'video' in info.get('format', '').lower() else None,
-            'copyright': info.get('license', 'Desconocido'),  # Derechos de autor, si está disponible
-            'origin_url': info.get('webpage_url', 'Desconocido'),
+            'youtube_id': info.get('id', 'unknown'),
+            'title': info.get('title', 'unknown'),
+            'fulltitle': info.get('fulltitle', 'unknown'),
+            'alt_title': info.get('alt_title', 'unknown'),
+            'description': info.get('description', 'unknown'),
+            'uploader': info.get('uploader', 'unknown'),
+            'channel': info.get('channel', 'unknown'),
+            'artist': info.get('artist', 'unknown'),
+            'creators': info.get('creators', 'unknow'), # list
+            'album': info.get('album', 'unknown'),
+            'year': info.get('release_year', 'unknown'),
+            'release_date': info.get('release_date', 'unknown'),
+            'duration': info.get('duration_string', '0'),  # HH:mm:ss
+            'label': info.get('media_type', 'unknown'),  # Nombre del canal como etiqueta aproximada
+            'resolution': info.get('format_note', 'unknown') if 'video' in info.get('format', '').lower() else None,
+            'copyright': info.get('license', 'unknown'),  # Derechos de autor, si está disponible
+            'origin_url': info.get('webpage_url', 'unknown'),
+            'live_status': info.get('live_status', 'unknown'),
+            'extractor': info.get('extractor', 'unknown'),
+            'categories': info.get('extractor', 'unknown'), #list
+            'tags': info.get('tags', 'unknown'), #list
+            'cast': info.get('cast', 'unknown') #list
         }

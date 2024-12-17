@@ -3,6 +3,8 @@
 # Tool
 https://github.com/yt-dlp/yt-dlp
 
+# Output template
+https://github.com/yt-dlp/yt-dlp#output-template
 
 # Git
 git remote add origin https://github.com/Owncreed93/media_challenge
