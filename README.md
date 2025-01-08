@@ -18,24 +18,38 @@ ffmpeg libavdevice60 libdc1394-25 libjack-jackd2-0 libopenal-data libopenal1 lib
 ## 📂 Project's structure
 ```
 /youtube_downloader
-│   │   ├── api                 # API Code
-│   │   │   ├── routes          # API Routes
-│   │   │   |    ├── main.py         # Main router
-│   │   ├── downloads           # Provitional storage
-│   │   │   ├── audios          # For audio
-│   │   │   ├── videos          # For videos
-│   │   ├── tests               # Test automatizados
-│   │   ├── utils               # Validación de requisitos para acceder a la funcionalidad
-│   │   ├── youtube_downloader  # Funcionalidad de descarga de la plataforma
-│   │   └── main.py             # Punto de entrada del sistema
-│   │   └── uvicorn_conf.py     # Configuracion de uvicorn y arranque del sistema
-│   ├── .env.example          # Variables de entorno de ejemplo
-│   ├── package.json          # Dependencias y configuraciones de node
-│   ├── package-lock.json     # Versiones instaladas en la ultima version probada
-├── .dockerignore         # Archivos a ignorar por los contenedores
-├── docker-compose.yml    # Configuración de Docker Compose
-├── README.md             # Presentación del proyecto
-└── .gitignore            # Archivos a ignorar por el git
+├── api                                    # API Code
+│   ├── controllers                        # API controllers
+|   │   ├── download.py                    # Executes functionality to download
+│   ├── query                              # API DB connection
+│   │   ├── db_connection.py               # Get connection the database
+│   │   ├── donwload.py                    # Donwload query structure
+│   ├── routes                             # API Routes
+│   │   ├── download.py                    # download routes
+│   │   ├── main.py                        # main route configuration
+│   ├── main.py                            # Main router
+├── db                                     # Database configuration
+│   ├── models                             # Models configuration
+│   │   ├── download.py                    # download DB model
+│   ├── base.py                            # Connection to the database
+│   ├── session.py                         # Session database
+├── downloads                              # Provitional storage
+│   ├── audios                             # For audio
+│   ├── videos                             # For videos
+│── tests                                  # Automated test
+│── utils                                  # Functionality that helps data treatment
+│── youtube_downloader                     # Donwload functionality
+│   ├── downloader.py                      # Functionality downloader
+│── main.py                                # Punto de entrada del sistema
+│── uvicorn_conf.py                        # Configuracion de uvicorn y arranque del sistema
+├── .env.example                           # Variables de entorno de ejemplo
+├── .dockerignore                          # Archivos a ignorar por los contenedores
+├── docker-compose.yml                     # Configuración de Docker Compose
+├── README.md                              # Presentación del proyecto
+└── .gitignore                             #  Archivos a ignorar por el git
+    
+
+
 ```
 
 # Poetry
