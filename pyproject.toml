@@ -16,6 +16,7 @@ poetry-plugin-export = "^1.8.0"
 sqlalchemy = "^2.0.36"
 mysql-connector-python = "^9.1.0"
 pytz = "^2024.2"
+alembic = "^1.14.0"
 
 
 [tool.poetry.group.dev.dependencies]

@@ -89,8 +89,53 @@ def download_menu():
 
 
 
+# class MediaDownloader:
+#     def __init__(self, url: str, media_type: str, video_path: str = VIDEOS_DIR, audio_path: str = AUDIOS_DIR):
+#         """
+#         Inicializa la clase con la URL del medio, el tipo (video/audio), y las rutas de almacenamiento.
+#         """
+#         self.url = url
+#         self.media_type = media_type
+#         self.video_path = video_path
+#         self.audio_path = audio_path
+#         self.metadata = {}
+
+#     def download(self) -> bool:
+#         """
+#         Downloads media based on the request (audio/video).
+#         Returns True if the download was successful, otherwise.
+#         """
+#         try:
+#             # Selección de ruta de salida según el tipo
+#             output_path = self.video_path if self.media_type == "video" else self.audio_path
+#             create_directories(output_path)
+
+#             # Opciones de configuración para yt-dlp
+#             options = {
+#                 'format': 'bestvideo[ext=mp4]+bestaudio/best[ext=mp4]/best' if self.media_type == "video" else 'bestaudio/best',
+#                 'outtmpl': f'{output_path}/%(title)s.%(ext)s',
+#                 'postprocessors': [{'key': 'FFmpegMetadata'}],
+#             }
+
+#             # Agregar postprocesador para audio
+#             if self.media_type == "audio":
+#                 options['postprocessors'].append({
+#                     'key': 'FFmpegExtractAudio',
+#                     'preferredcodec': 'mp3',
+#                     'preferredquality': '192',
+#                 })
+
+#             # Descarga del medio
+#             with YoutubeDL(options) as ydl:
+#                 info_dict = ydl.extract_info(self.url, download=True)
+#                 print(info_dict)
+#                 self.metadata = MediaMetadataExtractor.extract_metadata(info_dict)  # Extraer metadatos
+#             return True  # Indica éxito
+#         except Exception as e:
+#             print(f"Error al descargar el medio: {e}")
+#             return False
 class MediaDownloader:
-    def __init__(self, url: str, media_type: str, video_path: str = VIDEOS_DIR, audio_path: str = AUDIOS_DIR):
+    def __init__(self, url: str, media_type: str, video_path: str = VIDEOS_DIR, audio_path: str = AUDIOS_DIR, preferred_audio_format: str = "flac"):
         """
         Inicializa la clase con la URL del medio, el tipo (video/audio), y las rutas de almacenamiento.
         """
@@ -98,42 +143,66 @@ class MediaDownloader:
         self.media_type = media_type
         self.video_path = video_path
         self.audio_path = audio_path
+        self.preferred_audio_format = preferred_audio_format  # Formato de audio preferido (flac o mp3)
         self.metadata = {}
 
     def download(self) -> bool:
         """
-        Downloads media based on the request (audio/video).
-        Returns True if the download was successful, otherwise.
+        Descarga el medio basado en el tipo solicitado (audio/video).
+        Intenta usar FLAC si está disponible; de lo contrario, usa MP3 a 320kbps.
+        Devuelve True si la descarga fue exitosa; False en caso contrario.
         """
         try:
             # Selección de ruta de salida según el tipo
             output_path = self.video_path if self.media_type == "video" else self.audio_path
             create_directories(output_path)
 
-            # Opciones de configuración para yt-dlp
+            # Configuración inicial para yt-dlp
             options = {
                 'format': 'bestvideo[ext=mp4]+bestaudio/best[ext=mp4]/best' if self.media_type == "video" else 'bestaudio/best',
                 'outtmpl': f'{output_path}/%(title)s.%(ext)s',
                 'postprocessors': [{'key': 'FFmpegMetadata'}],
             }
 
-            # Agregar postprocesador para audio
+            # Agregar postprocesadores según el formato preferido
             if self.media_type == "audio":
-                options['postprocessors'].append({
-                    'key': 'FFmpegExtractAudio',
-                    'preferredcodec': 'mp3',
-                    'preferredquality': '192',
-                })
+                if self.preferred_audio_format == "flac":
+                    # Intentar FLAC
+                    options['postprocessors'].append({
+                        'key': 'FFmpegExtractAudio',
+                        'preferredcodec': 'flac',
+                        'preferredquality': '5',
+                    })
+                else:
+                    # Intentar MP3 a 320kbps
+                    options['postprocessors'].append({
+                        'key': 'FFmpegExtractAudio',
+                        'preferredcodec': 'mp3',
+                        'preferredquality': '320',
+                    })
 
-            # Descarga del medio
             with YoutubeDL(options) as ydl:
-                info_dict = ydl.extract_info(self.url, download=True)
-                print(info_dict)
-                self.metadata = MediaMetadataExtractor.extract_metadata(info_dict)  # Extraer metadatos
-            return True  # Indica éxito
+                try:
+                    info_dict = ydl.extract_info(self.url, download=True)
+                    self.metadata = MediaMetadataExtractor.extract_metadata(info_dict)
+                    return True  # Indica éxito
+                except Exception as flac_error:
+                    if self.preferred_audio_format == "flac":
+                        print(f"FLAC no disponible, intentando MP3: {flac_error}")
+                        # Modificar configuración para usar MP3 si falla FLAC
+                        options['postprocessors'][-1] = {
+                            'key': 'FFmpegExtractAudio',
+                            'preferredcodec': 'mp3',
+                            'preferredquality': '320',
+                        }
+                        with YoutubeDL(options) as fallback_ydl:
+                            info_dict = fallback_ydl.extract_info(self.url, download=True)
+                            self.metadata = MediaMetadataExtractor.extract_metadata(info_dict)
+                            return True
         except Exception as e:
             print(f"Error al descargar el medio: {e}")
             return False
+
 
 # Clase para extraer metadatos del medio
 class MediaMetadataExtractor:
@@ -146,23 +215,13 @@ class MediaMetadataExtractor:
             'youtube_id': info.get('id', 'unknown'),
             'title': info.get('title', 'unknown'),
             'fulltitle': info.get('fulltitle', 'unknown'),
-            'alt_title': info.get('alt_title', 'unknown'),
-            'description': info.get('description', 'unknown'),
             'uploader': info.get('uploader', 'unknown'),
             'channel': info.get('channel', 'unknown'),
-            'artist': info.get('artist', 'unknown'),
-            'creators': info.get('creators', 'unknow'), # list
-            'album': info.get('album', 'unknown'),
-            'year': info.get('release_year', 'unknown'),
-            'release_date': info.get('release_date', 'unknown'),
             'duration': info.get('duration_string', '0'),  # HH:mm:ss
-            'label': info.get('media_type', 'unknown'),  # Nombre del canal como etiqueta aproximada
             'resolution': info.get('format_note', 'unknown') if 'video' in info.get('format', '').lower() else None,
             'copyright': info.get('license', 'unknown'),  # Derechos de autor, si está disponible
             'origin_url': info.get('webpage_url', 'unknown'),
             'live_status': info.get('live_status', 'unknown'),
             'extractor': info.get('extractor', 'unknown'),
             'categories': info.get('extractor', 'unknown'), #list
-            'tags': info.get('tags', 'unknown'), #list
-            'cast': info.get('cast', 'unknown') #list
         }

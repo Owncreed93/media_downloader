@@ -10,7 +10,6 @@ init_db()
 
 @app.get('/')
 def root():
-    print('GAAA en el main')
     return {'message': 'Welcome to the Youtube Downloader API.'}
 
 

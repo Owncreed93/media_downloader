@@ -80,3 +80,8 @@ poetry export -f requirements.txt > requirements.txt
 ```bash
 poetry run python uvicorn_conf.py
 ```
+
+## Detect migrations
+```bash
+poetry run alembic revision --autogenerate -m "Basic functional system"
+```
