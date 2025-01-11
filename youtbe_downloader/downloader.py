@@ -218,6 +218,7 @@ class MediaMetadataExtractor:
             'uploader': info.get('uploader', 'unknown'),
             'channel': info.get('channel', 'unknown'),
             'duration': info.get('duration_string', '0'),  # HH:mm:ss
+            'label': info.get('label', 'unknown'),  # HH:mm:ss
             'resolution': info.get('format_note', 'unknown') if 'video' in info.get('format', '').lower() else None,
             'copyright': info.get('license', 'unknown'),  # Derechos de autor, si está disponible
             'origin_url': info.get('webpage_url', 'unknown'),

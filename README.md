@@ -85,3 +85,13 @@ poetry run python uvicorn_conf.py
 ```bash
 poetry run alembic revision --autogenerate -m "Basic functional system"
 ```
+or
+
+```bash
+alembic revision --autogenerate -m "<your message>"
+```
+
+## Apply Migration
+```bash
+poetry run alembic alembic upgrade head
+```

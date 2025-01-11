@@ -20,6 +20,18 @@ class BaseTimestamp(BaseModel):
 
 class DownloadCreate(BaseModel):
     url: str
+    youtube_id: Optional[str] = ''
+    title: Optional[str] = ''
+    fulltitle: Optional[str] = ''
+    uploader: Optional[str] = ''
+    channel: Optional[str] = ''
+    duration: Optional[str] = ''
+    label: Optional[str] = ''
+    copyright: Optional[str] = ''
+    origin_url: Optional[str] = ''
+    live_status: Optional[str] = ''
+    extractor: Optional[str] = ''
+    categories: Optional[str] = ''
     result: Optional[bool] = False 
     media_type: Optional[str] = 'audio'
     created_at: Optional[datetime] = None
@@ -70,7 +82,7 @@ class DownloadResponse(BaseTimestamp):
             url = obj.youtube_url,
             youtube_id = obj.youtube_id,
             title = obj.title,
-            fulltitle = obj.fulltile,
+            fulltitle = obj.fulltitle,
             uploader = obj.uploader,
             channel = obj.channel,
             duration = obj.duration,

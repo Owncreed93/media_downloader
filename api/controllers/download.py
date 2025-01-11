@@ -23,6 +23,18 @@ def create_download(download_data: DownloadCreate, db: Session) -> DownloadRespo
 
     if downloader.download():
         download_data.result = True
+        download_data.youtube_id = downloader.metadata.get('youtube_id')
+        download_data.title = downloader.metadata.get('title')
+        download_data.fulltitle = downloader.metadata.get('fulltitle')
+        download_data.uploader = downloader.metadata.get('uploader')
+        download_data.channel = downloader.metadata.get('channel')
+        download_data.duration = downloader.metadata.get('duration')
+        download_data.label = downloader.metadata.get('label')
+        download_data.copyright = downloader.metadata.get('copyright')
+        download_data.origin_url = downloader.metadata.get('origin_url')
+        download_data.live_status = downloader.metadata.get('live_status')
+        download_data.extractor = downloader.metadata.get('extractor')
+        download_data.categories = downloader.metadata.get('categories')
         new_download = save_download(download_data, db)
         response = DownloadResponse.from_sqlalchemy(new_download, download_data.media_type)
         print(f'\n*****************\n {downloader.metadata} \n*****************\n')
