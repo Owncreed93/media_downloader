@@ -36,11 +36,14 @@ ffmpeg libavdevice60 libdc1394-25 libjack-jackd2-0 libopenal-data libopenal1 lib
 ├── downloads                              # Provitional storage
 │   ├── audios                             # For audio
 │   ├── videos                             # For videos
+├── migrations                             # Handles database's structure updates
+│   ├── env.py                             # Alembic database environment configuration
 │── tests                                  # Automated test
 │── utils                                  # Functionality that helps data treatment
 │── youtube_downloader                     # Donwload functionality
 │   ├── downloader.py                      # Functionality downloader
-│── main.py                                # Punto de entrada del sistema
+│── alembic.ini                            # Alembic tool configuration 
+│── main.py                                # System's entry point
 │── uvicorn_conf.py                        # Configuracion de uvicorn y arranque del sistema
 ├── .env.example                           # Variables de entorno de ejemplo
 ├── .dockerignore                          # Archivos a ignorar por los contenedores
