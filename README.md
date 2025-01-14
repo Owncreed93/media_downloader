@@ -6,15 +6,10 @@ https://github.com/yt-dlp/yt-dlp
 # Output template
 https://github.com/yt-dlp/yt-dlp#output-template
 
-# Git
-git remote add origin https://github.com/Owncreed93/media_challenge
-git pull https://github.com/Owncreed93/media_challenge main
-git config pull.rebase true
-git pull https://github.com/Owncreed93/media_challenge main
-
 # Extra packages to install
+```bash
 ffmpeg libavdevice60 libdc1394-25 libjack-jackd2-0 libopenal-data libopenal1 libsdl2-2.0-0 libsndio7.0
-
+```
 ## 📂 Project's structure
 ```
 /youtube_downloader
