@@ -45,8 +45,6 @@ ffmpeg libavdevice60 libdc1394-25 libjack-jackd2-0 libopenal-data libopenal1 lib
 ├── docker-compose.yml                     # Configuración de Docker Compose
 ├── README.md                              # Presentación del proyecto
 └── .gitignore                             #  Archivos a ignorar por el git
-    
-
 
 ```
 
