@@ -2,7 +2,7 @@ from collections import OrderedDict
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, HttpUrl
 
 from utils.main import format_date
 
@@ -17,6 +17,12 @@ class BaseTimestamp(BaseModel):
             updated_at=format_date(obj.updated_at)
             # deleted_at=format_date(obj.deleted_at)
         )
+
+
+class DownloadRequest(BaseModel):
+    url: str
+    audio: bool = Field(default=True)
+
 
 class DownloadCreate(BaseModel):
     url: str
